@@ -7,7 +7,12 @@
 #include <string>
 
 int initSubjectsTracker() {
-    printf("\nInitiating Subjects Tracker");
+    printf("Choices:");
+    printf("[1] Add subject");
+    printf("[2] Remove subject");
+    printf("[3] Edit subject properties");
+    printf("[4] Check current subjects");
+    printf("[5] Rearrange/sort subjects");
     return 1;
 }
 
