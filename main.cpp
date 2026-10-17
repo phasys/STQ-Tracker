@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stdlib.h>
 
 typedef struct {
     std::string subjectName;
@@ -14,44 +15,67 @@ typedef struct {
     std::string difficulty;
 } subject;
 
-void subjectAdd(std::vector<subject> subjectsList) {
+void checkSubjects(std::vector<subject> subjectsList) {
+    if (subjectsList.empty()) printf("\nThe list is empty!");
+    for (int i = 0; i < subjectsList.size(); i++) {
+        std::cout << "\n["<<i+1<<"] " << subjectsList[i].subjectName;
+    }
+}
+
+std::vector<subject> subjectAdd(std::vector<subject> subjectsList) {
     subject newSubject;
     char inputMoreInfo;
 
-    printf("Subject name: \n");
-    std::cin >> newSubject.subjectName;
+    while (true) {
+        printf("\n-------------------------");
+        printf("\nSubject name: \n");
+        std::cin >> newSubject.subjectName;
 
-    printf("Additional parameters? [Y/n]\n");
-    std::cin >> inputMoreInfo;
+        if (newSubject.subjectName == "!") {
+            return subjectsList;
+        }
+        printf("Additional parameters? [Y/n]\n");
+        std::cin >> inputMoreInfo;
 
-    if (inputMoreInfo == 'Y') {
-        printf("Lecturer's name: \n");
-        std::cin >> newSubject.teacherName;
-        printf("Homework: \n");
-        std::cin >> newSubject.homework;
-        printf("Difficulty (in words): \n");
-        std::cin >> newSubject.difficulty;
-    } else {
-        newSubject.teacherName = "Default";
-        newSubject.homework = "Default";
-        newSubject.difficulty = "Default";
+        if (inputMoreInfo == 'Y') {
+            printf("Lecturer's name: \n");
+            std::cin >> newSubject.teacherName;
+            printf("Homework: \n");
+            std::cin >> newSubject.homework;
+            printf("Difficulty (in words): \n");
+            std::cin >> newSubject.difficulty;
+        } else {
+            newSubject.teacherName = "Default";
+            newSubject.homework = "Default";
+            newSubject.difficulty = "Default";
+        }
+
+        subjectsList.push_back(newSubject);
     }
-
-    subjectsList.push_back(newSubject);
+    
+    return subjectsList;
 }
 
-void checkSubjects(std::vector<subject> subjectsList) {
-    for (auto element : subjectsList) {
-        std::cout << element.subjectName << "\n";
-    }
+std::vector<subject> subjectRemove(std::vector<subject> subjectsList) {
+    printf("\n-------------------------"); // Minor breakline
+    printf("\nWhich item would you like to remove: ");
+    checkSubjects(subjectsList);
+    int chosenSubject;
+    printf("\nChoice: ");
+    std::cin >> chosenSubject;
+
+    subjectsList.erase(subjectsList.begin() + chosenSubject-1);
+
+    return subjectsList;
 }
 
 void initSubjectsTracker() {
     std::vector<subject> subjectsList;
 
     while (true) {
+        system("clear");
         char chosenMode;
-        printf("\n-------------------------");
+        printf("+++++++++++++++++++++++++"); // Major breakline
         printf("\nCurrent modes available:\n");
         printf("[1] Add subject\n");
         printf("[2] Remove subject\n");
@@ -59,30 +83,37 @@ void initSubjectsTracker() {
         printf("[4] Check current subjects\n");
         printf("[5] Rearrange/sort subjects\n");
         printf("[!] Escape\n");
-
         printf("Choice: ");
         std::cin >> chosenMode;
 
         if (chosenMode == '!') break;
-
         switch (chosenMode) {
             case '1':
-                subjectAdd(subjectsList);
+                subjectsList = subjectAdd(subjectsList);
+                break;
+            case '2':
+                subjectsList = subjectRemove(subjectsList);
                 break;
             case '4':
-                printf("test");
+                printf("\nCurrent subjects list:");
                 checkSubjects(subjectsList);
+                printf("\n\nEnter any character to continue...\n");
+                char tempHold;
+                scanf("%s", &tempHold);
                 break;
             default:
                 printf("No other choice\n");
         }
     }
+
+    system("clear");
 }
 
 int main() {
     while (true) {
+        system("clear");
         char chosenProgram;
-        printf("\n==========================");
+        printf("=========================="); // Origin breakline
         printf("\nCurrent programs available:\n");
         printf("[1] Subjects Tracker\n");
         printf("[2] Tasks Tracker\n");
