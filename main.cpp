@@ -1,8 +1,3 @@
-// What is this?: a C/C++ port to the SubjectsNTasks tracker
-// What does the Q stand for?: Quests. For a long time my dream has been an automatic IRL quest-tracking system.
-// Additional features will include a calendar and a skills tracking
-// My dream is to make it so tasks feel like I'm playing SAO
-
 #include <iostream>
 #include <string>
 #include <vector>
